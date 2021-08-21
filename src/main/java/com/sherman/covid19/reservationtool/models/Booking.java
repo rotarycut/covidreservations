@@ -20,7 +20,7 @@ public class Booking {
     @Column(name = "last_update")
     private LocalDateTime lastUpdate;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "nurse_vaccination_centre_timeslot_id", referencedColumnName = "id" )
     private NurseVaccinationCentreTimeslot nurseVaccinationCentreTimeslot;
 
