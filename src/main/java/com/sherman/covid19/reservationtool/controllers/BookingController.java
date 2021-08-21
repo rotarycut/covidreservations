@@ -65,9 +65,11 @@ public class BookingController {
 
         List<NurseVaccinationCentreTimeslot> allAvailableSlots = nurseVaccinationCentreTimeslotRepository.findTimeslotsNurseSlotVacCtr(incomingBooking.getSlot(), incomingBooking.getVac_centre_name());
         List<Booking> bookedSlotsForRequestedDay = bookedSlotsMap.get(LocalTime.parse(incomingBooking.getSlot()));
-        bookedSlotsForRequestedDay.forEach(x -> {
-            allAvailableSlots.remove(x.getNurseVaccinationCentreTimeslot());
-        });
+        if(bookedSlotsForRequestedDay != null) {
+            bookedSlotsForRequestedDay.forEach(x -> {
+                allAvailableSlots.remove(x.getNurseVaccinationCentreTimeslot());
+            });
+        }
 
         if(allAvailableSlots.size() > 0){
             NurseVaccinationCentreTimeslot nurseVaccinationCentreTimeslot = allAvailableSlots.get(0);
