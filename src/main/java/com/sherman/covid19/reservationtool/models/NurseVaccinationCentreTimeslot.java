@@ -15,6 +15,10 @@ public class NurseVaccinationCentreTimeslot {
         this.nurseVacCtrTimeSlotPK = nurseVacCtrTimeSlotPK;
     }
 
+    public NurseVaccinationCentreTimeslot (){
+
+    }
+
     @Embeddable
     public static class NurseVacCtrTimeSlotPK implements Serializable {
         @OneToOne

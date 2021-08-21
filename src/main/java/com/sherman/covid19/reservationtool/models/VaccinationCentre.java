@@ -1,24 +1,13 @@
 package com.sherman.covid19.reservationtool.models;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class VaccinationCentre {
     @Id
-    @GeneratedValue
-    private Long id ;
-    private Long maxCapacity = 10L;
     private String name;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Long maxCapacity;
 
     public Long getMaxCapacity() {
         return maxCapacity;

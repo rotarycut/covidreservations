@@ -1,0 +1,8 @@
+package com.sherman.covid19.reservationtool.managers;
+
+import com.sherman.covid19.reservationtool.models.NurseVaccinationCentreTimeslot;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface NurseVaccinationCentreTimeslotRepository extends JpaRepository<NurseVaccinationCentreTimeslot, NurseVaccinationCentreTimeslot.NurseVacCtrTimeSlotPK> {
+
+}

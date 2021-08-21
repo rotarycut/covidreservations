@@ -1,28 +1,61 @@
 package com.sherman.covid19.reservationtool.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 public class Booking {
-    @Id
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
-    private Person person;
-    @OneToOne
-    private Nurse nurse;
-    @OneToOne
-    private VaccinationCentre vaccinationCentre;
-    @OneToOne
-    private Slot slot;
 
     private LocalDate date;
-
     private LocalDateTime lastUpdate;
+
+    @EmbeddedId
+    private BookingPK bookingPK;
+
+    public BookingPK getBookingPK() {
+        return bookingPK;
+    }
+
+    public void setBookingPK(BookingPK bookingPK) {
+        this.bookingPK = bookingPK;
+    }
+
+    public Booking(LocalDate date, LocalDateTime lastUpdate, BookingPK bookingPK) {
+        this.date = date;
+        this.lastUpdate = lastUpdate;
+        this.bookingPK = bookingPK;
+    }
+
+    public Booking(){}
+
+    @Embeddable
+    public static class BookingPK implements Serializable {
+        @OneToOne
+        private Person person;
+
+        @OneToOne
+        private NurseVaccinationCentreTimeslot nurseVaccinationCentreTimeslot;
+
+        public Person getPerson() {
+            return person;
+        }
+
+        public void setPerson(Person person) {
+            this.person = person;
+        }
+
+        public NurseVaccinationCentreTimeslot getNurseVaccinationCentreTimeslot() {
+            return nurseVaccinationCentreTimeslot;
+        }
+
+        public void setNurseVaccinationCentreTimeslot(NurseVaccinationCentreTimeslot nurseVaccinationCentreTimeslot) {
+            this.nurseVaccinationCentreTimeslot = nurseVaccinationCentreTimeslot;
+        }
+    }
 
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
@@ -38,38 +71,6 @@ public class Booking {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Slot getSlot() {
-        return slot;
-    }
-
-    public void setSlot(Slot slot) {
-        this.slot = slot;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-
-    public Nurse getNurse() {
-        return nurse;
-    }
-
-    public void setNurse(Nurse nurse) {
-        this.nurse = nurse;
-    }
-
-    public VaccinationCentre getVaccinationCentre() {
-        return vaccinationCentre;
-    }
-
-    public void setVaccinationCentre(VaccinationCentre vaccinationCentre) {
-        this.vaccinationCentre = vaccinationCentre;
     }
 
     public LocalDate getDate() {
