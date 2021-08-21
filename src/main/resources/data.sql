@@ -1,6 +1,7 @@
-INSERT INTO PERSON(name, registered) VALUES ('Sherman', CURRENT_TIMESTAMP);
-INSERT INTO PERSON(name, registered) VALUES ('Amabel', CURRENT_TIMESTAMP);
-INSERT INTO PERSON(name, registered) VALUES ('Travis', CURRENT_TIMESTAMP);
+Select * from person;
+--INSERT INTO PERSON(name, registered) VALUES ('Sherman', CURRENT_TIMESTAMP);
+--INSERT INTO PERSON(name, registered) VALUES ('Amabel', CURRENT_TIMESTAMP);
+--INSERT INTO PERSON(name, registered) VALUES ('Travis', CURRENT_TIMESTAMP);
 
 --
 --INSERT INTO SLOT(timeslot) VALUES('09:00:00');
@@ -26,6 +27,8 @@ INSERT INTO PERSON(name, registered) VALUES ('Travis', CURRENT_TIMESTAMP);
 --INSERT INTO VACCINATION_CENTRE (name, max_capacity) values ('Kallang', '12');
 --
 ----
---INSERT into  NURSE_VACCINATION_CENTRE_TIMESLOT (nurse, slot, vaccination_centre) values ('Lucy', 2, 'Kallang')
---INSERT into  NURSE_VACCINATION_CENTRE_TIMESLOT (nurse, slot, vaccination_centre) values ('Mark', 4, 'Kallang');
---INSERT into  NURSE_VACCINATION_CENTRE_TIMESLOT (nurse, slot, vaccination_centre) values ('Jane', 4, 'Simei');
+--
+--INSERT into  NURSE_VACCINATION_CENTRE_TIMESLOT (nurse_name, slot_id, VACCINATION_CENTRE_name) values ('Lucy', 2, 'Kallang');
+--INSERT into  NURSE_VACCINATION_CENTRE_TIMESLOT (nurse_name, slot_id, VACCINATION_CENTRE_name) values ('Mark', 4, 'Kallang');
+--INSERT into  NURSE_VACCINATION_CENTRE_TIMESLOT (nurse_name, slot_id, VACCINATION_CENTRE_name) values ('Jane', 4, 'Simei');
+

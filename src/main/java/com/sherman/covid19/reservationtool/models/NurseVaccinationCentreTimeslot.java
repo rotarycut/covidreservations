@@ -1,14 +1,15 @@
 package com.sherman.covid19.reservationtool.models;
 
-import javax.persistence.Embeddable;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 public class NurseVaccinationCentreTimeslot {
-    @EmbeddedId
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true)
     private NurseVacCtrTimeSlotPK nurseVacCtrTimeSlotPK;
 
     public NurseVaccinationCentreTimeslot(NurseVacCtrTimeSlotPK nurseVacCtrTimeSlotPK) {
@@ -17,6 +18,22 @@ public class NurseVaccinationCentreTimeslot {
 
     public NurseVaccinationCentreTimeslot (){
 
+    }
+
+    public NurseVacCtrTimeSlotPK getNurseVacCtrTimeSlotPK() {
+        return nurseVacCtrTimeSlotPK;
+    }
+
+    public void setNurseVacCtrTimeSlotPK(NurseVacCtrTimeSlotPK nurseVacCtrTimeSlotPK) {
+        this.nurseVacCtrTimeSlotPK = nurseVacCtrTimeSlotPK;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Embeddable

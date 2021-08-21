@@ -4,57 +4,53 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
+@Table(uniqueConstraints={
+        @UniqueConstraint(columnNames = {"nurse_vaccination_centre_timeslot_id", "person_name","id","vac_date"})
+})
 public class Booking {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @Id
     private Long id;
 
-    private LocalDate date;
+    @Column(name = "vac_date")
+    private LocalDate vac_date;
+    @Column(name = "last_update")
     private LocalDateTime lastUpdate;
 
-    @EmbeddedId
-    private BookingPK bookingPK;
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "nurse_vaccination_centre_timeslot_id", referencedColumnName = "id" )
+    private NurseVaccinationCentreTimeslot nurseVaccinationCentreTimeslot;
 
-    public BookingPK getBookingPK() {
-        return bookingPK;
-    }
+    @OneToOne
+    @JoinColumn(name = "person_name", referencedColumnName = "name")
+    private Person person;
 
-    public void setBookingPK(BookingPK bookingPK) {
-        this.bookingPK = bookingPK;
-    }
-
-    public Booking(LocalDate date, LocalDateTime lastUpdate, BookingPK bookingPK) {
-        this.date = date;
+    public Booking(LocalDate vac_date, LocalDateTime lastUpdate, NurseVaccinationCentreTimeslot nurseVaccinationCentreTimeslot, Person person) {
+        this.vac_date = vac_date;
         this.lastUpdate = lastUpdate;
-        this.bookingPK = bookingPK;
+        this.nurseVaccinationCentreTimeslot = nurseVaccinationCentreTimeslot;
+        this.person = person;
     }
 
-    public Booking(){}
+    public  Booking() {};
 
-    @Embeddable
-    public static class BookingPK implements Serializable {
-        @OneToOne
-        private Person person;
+    public Long getId() {
+        return id;
+    }
 
-        @OneToOne
-        private NurseVaccinationCentreTimeslot nurseVaccinationCentreTimeslot;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-        public Person getPerson() {
-            return person;
-        }
+    public LocalDate getVac_date() {
+        return vac_date;
+    }
 
-        public void setPerson(Person person) {
-            this.person = person;
-        }
-
-        public NurseVaccinationCentreTimeslot getNurseVaccinationCentreTimeslot() {
-            return nurseVaccinationCentreTimeslot;
-        }
-
-        public void setNurseVaccinationCentreTimeslot(NurseVaccinationCentreTimeslot nurseVaccinationCentreTimeslot) {
-            this.nurseVaccinationCentreTimeslot = nurseVaccinationCentreTimeslot;
-        }
+    public void setVac_date(LocalDate vac_date) {
+        this.vac_date = vac_date;
     }
 
     public LocalDateTime getLastUpdate() {
@@ -65,19 +61,21 @@ public class Booking {
         this.lastUpdate = lastUpdate;
     }
 
-    public Long getId() {
-        return id;
+    public NurseVaccinationCentreTimeslot getNurseVaccinationCentreTimeslot() {
+        return nurseVaccinationCentreTimeslot;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setNurseVaccinationCentreTimeslot(NurseVaccinationCentreTimeslot nurseVaccinationCentreTimeslot) {
+        this.nurseVaccinationCentreTimeslot = nurseVaccinationCentreTimeslot;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setPerson(Person person) {
+        this.person = person;
     }
+
+
 }
