@@ -69,8 +69,8 @@ public class BookingController {
         Booking personBooking = bookingRepository.findBookingByPerson(incomingBooking.getPersonName());
 
         if(personBooking != null){
-            return ResponseEntity.internalServerError().body("Person " + incomingBooking.getPersonName() + " already has an existing booking for date " + incomingBooking.getVac_date()
-                    + " and time " + incomingBooking.getSlot() + " and centre " + incomingBooking.getVac_centre_name() + ". Please update your appointment instead.");
+            return ResponseEntity.internalServerError().body("Person " + personBooking.getPerson().getName() + " already has an existing booking for date " + personBooking.getVac_date()
+                    + " and time " + personBooking.getNurseVaccinationCentreTimeslot().getNurseVacCtrTimeSlotPK().getSlot().getTimeslot() + " and centre " + personBooking.getNurseVaccinationCentreTimeslot().getNurseVacCtrTimeSlotPK().getVaccinationCentre().getName() + ". Please update your appointment instead.");
         }
 
         List<Booking> allBookings = bookingRepository.findAll();
@@ -125,14 +125,18 @@ public class BookingController {
             Person existingPerson = existingBooking.getPerson();
 
             List<Booking> allBookings = bookingRepository.findAll();
-            VaccinationCentre requestedVacCtr = vaccinationCentreRepository.findById(incomingBooking.getVac_centre_name()).get();
+            VaccinationCentre requestedVacCtr = vaccinationCentreRepository.findById(incomingBooking.getVac_centre_name()).orElse(null);
+            if (requestedVacCtr == null){
+                return ResponseEntity.internalServerError().body("Vaccine center with name " + incomingBooking.getVac_centre_name() + " cannot be found!");
+            }
+
             Map<VaccinationCentre, Long> vacCtrBookingsMap = allBookings.stream()
                     .filter(x -> x.getVac_date().equals(requestedDate))
                     .collect(Collectors.groupingBy(x -> x.getNurseVaccinationCentreTimeslot().getNurseVacCtrTimeSlotPK().getVaccinationCentre(), Collectors.counting()));
 
             Long currentCapacity = vacCtrBookingsMap.get(requestedVacCtr);
             if (currentCapacity != null &&currentCapacity.equals(requestedVacCtr.getMaxCapacity())) {
-                return ResponseEntity.badRequest().body("{'status': 'failure', 'reason': 'Vaccination Centre is full!'}");
+                return ResponseEntity.internalServerError().body("{'status': 'failure', 'reason': 'Vaccination Centre is full!'}");
             }
 
             Map<LocalTime, List<Booking>> bookedSlotsMap = allBookings.stream()
@@ -158,7 +162,7 @@ public class BookingController {
 
                 return ResponseEntity.ok("{'status': 'success'}");
             }else{
-                return ResponseEntity.badRequest().body("{'status': 'failure', 'reason': 'Unable to reschedule due to any available slots'}");
+                return ResponseEntity.internalServerError().body("{'status': 'failure', 'reason': 'Unable to reschedule due to any available slots'}");
             }
         }else{
             return ResponseEntity.internalServerError().body("{'status': 'failure', 'reason': 'Booking does not exist!'}");
