@@ -44,6 +44,7 @@ public class BookingController {
     private static final Logger log = LoggerFactory.getLogger(BootstrapDatabase.class);
 
     @GetMapping("/bookings")
+    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
     public List<Booking> all() {
         return bookingRepository.findAll();
     }
