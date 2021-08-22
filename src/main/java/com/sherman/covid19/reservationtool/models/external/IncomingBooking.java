@@ -37,4 +37,14 @@ public class IncomingBooking {
     public void setPersonName(String personName) {
         this.personName = personName;
     }
+
+    @Override
+    public String toString() {
+        return "IncomingBooking{" +
+                "vac_centre_name='" + vac_centre_name + '\'' +
+                ", slot='" + slot + '\'' +
+                ", vac_date='" + vac_date + '\'' +
+                ", personName='" + personName + '\'' +
+                '}';
+    }
 }

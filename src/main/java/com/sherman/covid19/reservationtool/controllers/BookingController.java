@@ -57,8 +57,15 @@ public class BookingController {
         if(incomingBooking == null){
             throw new Exception("Incoming Booking object is null!");
         }
+        log.info("IncomingBooking Object attributes: " + incomingBooking.toString());
+
         LocalDate requestedDate = LocalDate.parse(incomingBooking.getVac_date(), DateTimeFormatter.ofPattern("yyyyMMdd"));
-        Person requestingPerson = personRepository.findById(incomingBooking.getPersonName()).get();
+        Person requestingPerson = personRepository.findById(incomingBooking.getPersonName()).orElse(null);
+        if(requestingPerson == null){
+            log.info("No person with name "+ incomingBooking.getPersonName() + " exists. Proceeding to create person.");
+            personRepository.save(new Person(incomingBooking.getPersonName()));
+            requestingPerson = personRepository.findById(incomingBooking.getPersonName()).get();
+        }
         Booking personBooking = bookingRepository.findBookingByPerson(incomingBooking.getPersonName());
 
         if(personBooking != null){
