@@ -14,19 +14,19 @@ public class PersonController {
         this.repository = repository;
     }
 
-    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
+    @CrossOrigin
     @GetMapping("/persons")
     List<Person> all() {
         return repository.findAll();
     }
 
-    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
+    @CrossOrigin
     @GetMapping("/findPersonByName")
     Person getPersonByName(@RequestParam String personName){
         return repository.findById(personName).orElse(null);
     }
 
-    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
+    @CrossOrigin
     @PostMapping("/createPerson")
     Person newEmployee(@RequestBody Person newPerson) {
         return repository.save(newPerson);

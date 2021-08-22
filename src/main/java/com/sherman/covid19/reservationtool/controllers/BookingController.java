@@ -44,13 +44,13 @@ public class BookingController {
     private static final Logger log = LoggerFactory.getLogger(BootstrapDatabase.class);
 
     @GetMapping("/bookings")
-    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
+    @CrossOrigin
     public List<Booking> all() {
         return bookingRepository.findAll();
     }
 
     @PostMapping(value="/createBooking" , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
+    @CrossOrigin
     public ResponseEntity<String> createBooking(@RequestBody IncomingBooking incomingBooking) throws Exception {
         log.info("Create Booking request received");
 
@@ -102,7 +102,7 @@ public class BookingController {
         }
     }
 
-    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
+    @CrossOrigin
     @PostMapping(value="updateBooking", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateBooking(@RequestBody IncomingBooking incomingBooking){
         log.info("Update Booking request received");
@@ -154,7 +154,7 @@ public class BookingController {
         }
     }
 
-    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
+    @CrossOrigin
     @PostMapping(value="deleteBooking", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteBooking(@RequestBody IncomingBooking incomingBooking){
         log.info("Delete Booking request received");
@@ -168,7 +168,7 @@ public class BookingController {
         }
     }
 
-    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
+    @CrossOrigin
     @GetMapping(value="getPersonBooking", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Booking> getPersonBooking(@RequestParam String personName){
         log.info("Get Booking request received");

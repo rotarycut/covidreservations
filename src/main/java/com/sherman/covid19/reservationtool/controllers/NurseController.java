@@ -16,7 +16,7 @@ public class NurseController {
         this.repository = repository;
     }
 
-    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
+    @CrossOrigin
     @GetMapping("/nurses")
     List<Nurse> all() {
         return repository.findAll();
