@@ -1,23 +1,23 @@
 package com.sherman.covid19.reservationtool.controllers;
 
 import com.sherman.covid19.reservationtool.BootstrapDatabase;
-import com.sherman.covid19.reservationtool.managers.BookingRepository;
-import com.sherman.covid19.reservationtool.managers.NurseVaccinationCentreTimeslotRepository;
-import com.sherman.covid19.reservationtool.managers.PersonRepository;
-import com.sherman.covid19.reservationtool.managers.VaccinationCentreRepository;
+import com.sherman.covid19.reservationtool.managers.*;
 import com.sherman.covid19.reservationtool.models.*;
 import com.sherman.covid19.reservationtool.models.external.IncomingBooking;
+import com.sherman.covid19.reservationtool.utils.DateRange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,14 +28,17 @@ public class BookingController {
     private final PersonRepository personRepository;
     private final NurseVaccinationCentreTimeslotRepository nurseVaccinationCentreTimeslotRepository;
     private final VaccinationCentreRepository vaccinationCentreRepository;
+    private final SlotRepository slotRepository;
 
     public BookingController(BookingRepository bookingRepository, PersonRepository personRepository,
                              NurseVaccinationCentreTimeslotRepository nurseVaccinationCentreTimeslotRepository,
-                             VaccinationCentreRepository vaccinationCentreRepository) {
+                             VaccinationCentreRepository vaccinationCentreRepository,
+                             SlotRepository slotRepository) {
         this.bookingRepository = bookingRepository;
         this.personRepository = personRepository;
         this.nurseVaccinationCentreTimeslotRepository = nurseVaccinationCentreTimeslotRepository;
         this.vaccinationCentreRepository = vaccinationCentreRepository;
+        this.slotRepository = slotRepository;
     }
 
     private static final Logger log = LoggerFactory.getLogger(BootstrapDatabase.class);
@@ -46,6 +49,7 @@ public class BookingController {
     }
 
     @PostMapping(value="/createBooking" , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
     public ResponseEntity<String> createBooking(@RequestBody IncomingBooking incomingBooking) throws Exception {
         log.info("Create Booking request received");
 
@@ -97,6 +101,7 @@ public class BookingController {
         }
     }
 
+    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
     @PostMapping(value="updateBooking", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateBooking(@RequestBody IncomingBooking incomingBooking){
         log.info("Update Booking request received");
@@ -148,6 +153,7 @@ public class BookingController {
         }
     }
 
+    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
     @PostMapping(value="deleteBooking", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteBooking(@RequestBody IncomingBooking incomingBooking){
         log.info("Delete Booking request received");
@@ -161,6 +167,7 @@ public class BookingController {
         }
     }
 
+    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
     @GetMapping(value="getPersonBooking", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Booking> getPersonBooking(@RequestParam String personName){
         log.info("Get Booking request received");
@@ -173,21 +180,28 @@ public class BookingController {
         }
     }
 
-    @GetMapping(value="/getBookingAvailability", produces = MediaType.APPLICATION_JSON_VALUE)
-    String getBookingAvailability(@RequestParam String date, @RequestParam String timeslot, @RequestParam String vacCentre) {
-        log.info("Get Booking Availability request received");
-
-        List<NurseVaccinationCentreTimeslot> nurseVaccinationCentreTimeslots = nurseVaccinationCentreTimeslotRepository.findTimeslotsNurseSlotVacCtr(timeslot, vacCentre);
-        List<Long> nurseVaccinationCentreTimeslotsIds = nurseVaccinationCentreTimeslots.stream().map(NurseVaccinationCentreTimeslot::getId).collect(Collectors.toList());
-
-        List<Booking> allBookings = bookingRepository.findAll();
-        List<Booking> availableBookings = new ArrayList<>();
-        allBookings.forEach(x -> {
-            if (!nurseVaccinationCentreTimeslotsIds.contains(x.getNurseVaccinationCentreTimeslot().getId())){
-                availableBookings.add(x);
-            }
-        });
-
-        return "";
-    }
+//    @GetMapping(value="/getBookingAvailability", produces = MediaType.APPLICATION_JSON_VALUE)
+//    String getBookingAvailability(@RequestParam String date, @RequestParam String timeslot, @RequestParam String vacCentre) {
+//        log.info("Get Booking Availability request received");
+//
+//        List<Slot> allSlots = slotRepository.findAll();
+//        List<Booking> allBookings = bookingRepository.findAll();
+//        Map<LocalDate, List<Booking>> bookedDatesMap = allBookings.stream().collect(Collectors.groupingBy(Booking::getVac_date));
+//
+//        Map<LocalDate, NurseVaccinationCentreTimeslot> availabilityMap = new HashMap<>();
+//
+//        DateRange dateRange = new DateRange(LocalDate.now(), LocalDate.now().plusMonths(3));
+//
+//        dateRange.stream().forEach(x -> {
+//            if(x.getDayOfWeek().equals(DayOfWeek.SATURDAY) || x.getDayOfWeek().equals(DayOfWeek.SUNDAY)){
+//                List<Booking> existingBookingsOnDate = bookedDatesMap.get(x);
+//                if(existingBookingsOnDate == null){
+//
+//                }
+//            }
+//        });
+//
+//
+//        return "";
+//    }
 }
