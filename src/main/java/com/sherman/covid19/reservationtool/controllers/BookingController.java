@@ -74,14 +74,18 @@ public class BookingController {
         }
 
         List<Booking> allBookings = bookingRepository.findAll();
-        VaccinationCentre requestedVacCtr = vaccinationCentreRepository.findById(incomingBooking.getVac_centre_name()).get();
+        VaccinationCentre requestedVacCtr = vaccinationCentreRepository.findById(incomingBooking.getVac_centre_name()).orElse(null);
+        if (requestedVacCtr == null){
+            return ResponseEntity.internalServerError().body("Vaccine center with name " + incomingBooking.getVac_centre_name() + " cannot be found!");
+        }
+
         Map<VaccinationCentre, Long> vacCtrBookingsMap = allBookings.stream()
                 .filter(x -> x.getVac_date().equals(requestedDate))
                 .collect(Collectors.groupingBy(x -> x.getNurseVaccinationCentreTimeslot().getNurseVacCtrTimeSlotPK().getVaccinationCentre(), Collectors.counting()));
 
         Long currentCapacity = vacCtrBookingsMap.get(requestedVacCtr);
         if(currentCapacity != null && currentCapacity.equals(requestedVacCtr.getMaxCapacity())){
-            return ResponseEntity.badRequest().body("{'status': 'failure', 'reason': 'Vaccination Centre is full!'}");
+            return ResponseEntity.internalServerError().body("{'status': 'failure', 'reason': 'Vaccination Centre is full!'}");
         }
 
         Map<LocalTime, List<Booking>> bookedSlotsMap = allBookings.stream()
@@ -105,7 +109,7 @@ public class BookingController {
             return ResponseEntity.ok("{'status': 'success'}");
         }else{
             //No more timeslots
-            return ResponseEntity.badRequest().body("{'status': 'failure', 'reason': 'No more available timeslots'}");
+            return ResponseEntity.internalServerError().body("{'status': 'failure', 'reason': 'No more available timeslots'}");
         }
     }
 
