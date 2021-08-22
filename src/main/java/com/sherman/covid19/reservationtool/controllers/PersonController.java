@@ -21,6 +21,12 @@ public class PersonController {
     }
 
     @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
+    @GetMapping("/findPersonByName")
+    Person getPersonByName(@RequestParam String personName){
+        return repository.findById(personName).orElse(null);
+    }
+
+    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
     @PostMapping("/createPerson")
     Person newEmployee(@RequestBody Person newPerson) {
         return repository.save(newPerson);
