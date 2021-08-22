@@ -2,10 +2,7 @@ package com.sherman.covid19.reservationtool.controllers;
 
 import com.sherman.covid19.reservationtool.managers.PersonRepository;
 import com.sherman.covid19.reservationtool.models.Person;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,11 +14,13 @@ public class PersonController {
         this.repository = repository;
     }
 
+    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
     @GetMapping("/persons")
     List<Person> all() {
         return repository.findAll();
     }
 
+    @CrossOrigin(origins = "https://homage-covid-client.herokuapp.com/")
     @PostMapping("/createPerson")
     Person newEmployee(@RequestBody Person newPerson) {
         return repository.save(newPerson);
