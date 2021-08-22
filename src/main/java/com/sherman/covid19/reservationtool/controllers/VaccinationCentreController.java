@@ -2,6 +2,7 @@ package com.sherman.covid19.reservationtool.controllers;
 
 import com.sherman.covid19.reservationtool.managers.VaccinationCentreRepository;
 import com.sherman.covid19.reservationtool.models.VaccinationCentre;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,7 @@ public class VaccinationCentreController {
         this.repository = repository;
     }
 
+    @CrossOrigin
     @GetMapping("/vaccinationCentres")
     List<VaccinationCentre> all() {
         return repository.findAll();
