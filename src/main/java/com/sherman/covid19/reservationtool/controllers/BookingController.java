@@ -69,8 +69,9 @@ public class BookingController {
         Booking personBooking = bookingRepository.findBookingByPerson(incomingBooking.getPersonName());
 
         if(personBooking != null){
-            return ResponseEntity.internalServerError().body("Person " + personBooking.getPerson().getName() + " already has an existing booking for date " + personBooking.getVac_date()
-                    + " and time " + personBooking.getNurseVaccinationCentreTimeslot().getNurseVacCtrTimeSlotPK().getSlot().getTimeslot() + " and centre " + personBooking.getNurseVaccinationCentreTimeslot().getNurseVacCtrTimeSlotPK().getVaccinationCentre().getName() + ". Please update your appointment instead.");
+            String existingBookingError = "Person " + personBooking.getPerson().getName() + " already has an existing booking for date " + personBooking.getVac_date()
+                    + " and time " + personBooking.getNurseVaccinationCentreTimeslot().getNurseVacCtrTimeSlotPK().getSlot().getTimeslot() + " and centre " + personBooking.getNurseVaccinationCentreTimeslot().getNurseVacCtrTimeSlotPK().getVaccinationCentre().getName() + ". Please update your appointment instead.";
+            return ResponseEntity.internalServerError().body("\"status:\": \"failure\", \"reason\": \"" + existingBookingError + "\"");
         }
 
         List<Booking> allBookings = bookingRepository.findAll();
