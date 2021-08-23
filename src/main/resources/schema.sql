@@ -26,10 +26,10 @@ CREATE TABLE IF NOT EXISTS NURSE_VACCINATION_CENTRE_TIMESLOT (
 );
 
 create table if not exists BOOKING (
-        id serial not null,
+        id serial not null primary key,
         NURSE_VACCINATION_CENTRE_TIMESLOT_ID integer references NURSE_VACCINATION_CENTRE_TIMESLOT ( id),
         person_name varchar(80) references person(name),
         last_update TIMESTAMP,
         vac_date date not null,
-        PRIMARY KEY(NURSE_VACCINATION_CENTRE_TIMESLOT_ID, person_name, id, vac_date)
+        UNIQUE(NURSE_VACCINATION_CENTRE_TIMESLOT_ID, person_name, id, vac_date)
 )
