@@ -22,11 +22,9 @@ https://github.com/rotarycut/covidreservations/blob/main/src/main/resources/appl
 2. Upon clicking 'Next' button, checks will be done to see if user has an existing booking. 
     * If yes, populate appointment form with existing booking details
         * If user wants to update appointment details with desired new date/timeslot/centre, respective details need to be filled and upon clicking on 'Update' button, booking details will be updated in the database
-        
-2a1. If user wants to update appointment details with desired new date/timeslot/centre, respective details need to be filled and upon clicking on 'Update' button, booking details will be updated in the database
-2a2. If user wants to delete appointment, clicking the 'Delete' button will remove the booking entry from the database
-2b. If no, copy user entered name and user will have to choose desired appointment date, centre and timeslot
-2b1. Upon clicking 'Create' button, a new booking will be created
+        * If user wants to delete appointment, clicking the 'Delete' button will remove the booking entry from the database
+    * If no, copy user entered name and user will have to choose desired appointment date, centre and timeslot
+        * Upon clicking 'Create' button, a new booking will be created
 
 ## Data models
 #### Person
