@@ -76,7 +76,7 @@ public class BookingController {
         List<Booking> allBookings = bookingRepository.findAll();
         VaccinationCentre requestedVacCtr = vaccinationCentreRepository.findById(incomingBooking.getVac_centre_name()).orElse(null);
         if (requestedVacCtr == null){
-            return ResponseEntity.internalServerError().body("Vaccine center with name " + incomingBooking.getVac_centre_name() + " cannot be found!");
+            return ResponseEntity.internalServerError().body("{\"status\": \"failure\", \"reason\": \"Vaccine center with name \"" + incomingBooking.getVac_centre_name() + " cannot be found!\"}");
         }
 
         Map<VaccinationCentre, Long> vacCtrBookingsMap = allBookings.stream()
@@ -85,7 +85,7 @@ public class BookingController {
 
         Long currentCapacity = vacCtrBookingsMap.get(requestedVacCtr);
         if(currentCapacity != null && currentCapacity.equals(requestedVacCtr.getMaxCapacity())){
-            return ResponseEntity.internalServerError().body("{'status': 'failure', 'reason': 'Vaccination Centre is full!'}");
+            return ResponseEntity.internalServerError().body("{\"status\": \"failure\", \"reason\": \"Vaccination Centre is full!\"}");
         }
 
         Map<LocalTime, List<Booking>> bookedSlotsMap = allBookings.stream()
@@ -106,10 +106,10 @@ public class BookingController {
             Booking b = new Booking(requestedDate, LocalDateTime.now(), nurseVaccinationCentreTimeslot, requestingPerson);
             bookingRepository.save(b);
 
-            return ResponseEntity.ok("{'status': 'success'}");
+            return ResponseEntity.ok("{\"status\": \"success\"}");
         }else{
             //No more timeslots
-            return ResponseEntity.internalServerError().body("{'status': 'failure', 'reason': 'No more available timeslots'}");
+            return ResponseEntity.internalServerError().body("{\"status\": \"failure\", \"reason\": \"No more available timeslots\"}");
         }
     }
 
@@ -127,7 +127,7 @@ public class BookingController {
             List<Booking> allBookings = bookingRepository.findAll();
             VaccinationCentre requestedVacCtr = vaccinationCentreRepository.findById(incomingBooking.getVac_centre_name()).orElse(null);
             if (requestedVacCtr == null){
-                return ResponseEntity.internalServerError().body("Vaccine center with name " + incomingBooking.getVac_centre_name() + " cannot be found!");
+                return ResponseEntity.internalServerError().body("{\"status\": \"failure\", \"reason\": \"Vaccine center with name \"" + incomingBooking.getVac_centre_name() + " cannot be found!\"}");
             }
 
             Map<VaccinationCentre, Long> vacCtrBookingsMap = allBookings.stream()
@@ -136,7 +136,7 @@ public class BookingController {
 
             Long currentCapacity = vacCtrBookingsMap.get(requestedVacCtr);
             if (currentCapacity != null &&currentCapacity.equals(requestedVacCtr.getMaxCapacity())) {
-                return ResponseEntity.internalServerError().body("{'status': 'failure', 'reason': 'Vaccination Centre is full!'}");
+                return ResponseEntity.internalServerError().body("{\"status\": \"failure\", \"reason\": \"Vaccination Centre is full!\"}");
             }
 
             Map<LocalTime, List<Booking>> bookedSlotsMap = allBookings.stream()
@@ -160,12 +160,12 @@ public class BookingController {
                 existingBooking.setVac_date(requestedDate);
                 bookingRepository.save(existingBooking);
 
-                return ResponseEntity.ok("{'status': 'success'}");
+                return ResponseEntity.ok("{\"status\": \"success\"}");
             }else{
-                return ResponseEntity.internalServerError().body("{'status': 'failure', 'reason': 'Unable to reschedule due to any available slots'}");
+                return ResponseEntity.internalServerError().body("{\"status\": \"failure\", \"reason\": \"Unable to reschedule due to any available slots\"}");
             }
         }else{
-            return ResponseEntity.internalServerError().body("{'status': 'failure', 'reason': 'Booking does not exist!'}");
+            return ResponseEntity.internalServerError().body("{\"status\": \"failure\", \"reason\": \"Booking does not exist!\"}");
         }
     }
 
@@ -177,9 +177,9 @@ public class BookingController {
         Booking existingBooking = bookingRepository.findBookingByPerson(incomingBooking.getPersonName());
         if(existingBooking != null){
             bookingRepository.delete(existingBooking);
-            return ResponseEntity.ok("{'status': 'success'}");
+            return ResponseEntity.ok("{\"status\": \"success\"}");
         }else{
-            return ResponseEntity.badRequest().body("{'status': 'failure', 'reason': 'No such booking!'}");
+            return ResponseEntity.internalServerError().body("{\"status\": \"failure\", \"reason\": \"No such booking!\"}");
         }
     }
 
