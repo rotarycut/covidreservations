@@ -121,16 +121,16 @@ public class BookingController {
 
     private String validateIncomingBooking(IncomingBooking incomingBooking) {
         StringBuilder errorString = new StringBuilder();
-        if(incomingBooking.getVac_centre_name() == null){
+        if(incomingBooking.getVac_centre_name() == null || incomingBooking.getVac_centre_name().isEmpty()){
             errorString.append("Vaccination Center is Empty! ");
         }
-        if(incomingBooking.getSlot() == null ){
+        if(incomingBooking.getSlot() == null || incomingBooking.getSlot().isEmpty()){
             errorString.append("Slot is Empty! ");
         }
-        if(incomingBooking.getVac_date() == null ){
+        if(incomingBooking.getVac_date() == null || incomingBooking.getVac_date().isEmpty()){
             errorString.append("Vaccination Date is Empty! ");
         }
-        if(incomingBooking.getPersonName() == null ){
+        if(incomingBooking.getPersonName() == null  || incomingBooking.getPersonName().isEmpty()){
             errorString.append("Person Name is Empty! ");
         }
 
