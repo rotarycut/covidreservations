@@ -163,7 +163,7 @@ public class BookingController {
 
                 return ResponseEntity.ok("{\"status\": \"success\"}");
             }else{
-                return ResponseEntity.internalServerError().body("{\"status\": \"failure\", \"reason\": \"Unable to reschedule due to any available slots\"}");
+                return ResponseEntity.internalServerError().body("{\"status\": \"failure\", \"reason\": \"Unable to reschedule due to no available slots\"}");
             }
         }else{
             return ResponseEntity.internalServerError().body("{\"status\": \"failure\", \"reason\": \"Booking does not exist!\"}");
