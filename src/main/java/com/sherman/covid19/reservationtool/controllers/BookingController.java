@@ -61,7 +61,7 @@ public class BookingController {
 
         String incomingBookingValidationString = validateIncomingBooking(incomingBooking);
         if(incomingBookingValidationString != null){
-            return ResponseEntity.internalServerError().body("\"status:\": \"failure\", \"reason\": \"" + incomingBookingValidationString + "\"");
+            return ResponseEntity.internalServerError().body("{\"status:\": \"failure\", \"reason\": \"" + incomingBookingValidationString + "\"}");
         }
 
         LocalDate requestedDate = LocalDate.parse(incomingBooking.getVac_date(), DateTimeFormatter.ofPattern("yyyyMMdd"));
@@ -148,7 +148,7 @@ public class BookingController {
 
         String incomingBookingValidationString = validateIncomingBooking(incomingBooking);
         if(incomingBookingValidationString != null){
-            return ResponseEntity.internalServerError().body("\"status:\": \"failure\", \"reason\": \"" + incomingBookingValidationString + "\"");
+            return ResponseEntity.internalServerError().body("{\"status:\": \"failure\", \"reason\": \"" + incomingBookingValidationString + "\"}");
         }
 
         Booking existingBooking = bookingRepository.findBookingByPerson(incomingBooking.getPersonName());
