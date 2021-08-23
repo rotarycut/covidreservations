@@ -59,6 +59,11 @@ public class BookingController {
         }
         log.info("IncomingBooking Object attributes: " + incomingBooking.toString());
 
+        String incomingBookingValidationString = validateIncomingBooking(incomingBooking);
+        if(incomingBookingValidationString != null){
+            return ResponseEntity.internalServerError().body("\"status:\": \"failure\", \"reason\": \"" + incomingBookingValidationString + "\"");
+        }
+
         LocalDate requestedDate = LocalDate.parse(incomingBooking.getVac_date(), DateTimeFormatter.ofPattern("yyyyMMdd"));
         Person requestingPerson = personRepository.findById(incomingBooking.getPersonName()).orElse(null);
         if(requestingPerson == null){
@@ -77,7 +82,7 @@ public class BookingController {
         List<Booking> allBookings = bookingRepository.findAll();
         VaccinationCentre requestedVacCtr = vaccinationCentreRepository.findById(incomingBooking.getVac_centre_name()).orElse(null);
         if (requestedVacCtr == null){
-            return ResponseEntity.internalServerError().body("{\"status\": \"failure\", \"reason\": \"Vaccine center with name \"" + incomingBooking.getVac_centre_name() + " cannot be found!\"}");
+            return ResponseEntity.internalServerError().body("{\"status\": \"failure\", \"reason\": \"Vaccine center with name " + incomingBooking.getVac_centre_name() + " cannot be found!\"}");
         }
 
         Map<VaccinationCentre, Long> vacCtrBookingsMap = allBookings.stream()
@@ -114,10 +119,37 @@ public class BookingController {
         }
     }
 
+    private String validateIncomingBooking(IncomingBooking incomingBooking) {
+        StringBuilder errorString = new StringBuilder();
+        if(incomingBooking.getVac_centre_name() == null){
+            errorString.append("Vaccination Center is Empty! ");
+        }
+        if(incomingBooking.getSlot() == null ){
+            errorString.append("Slot is Empty! ");
+        }
+        if(incomingBooking.getVac_date() == null ){
+            errorString.append("Vaccination Date is Empty! ");
+        }
+        if(incomingBooking.getPersonName() == null ){
+            errorString.append("Person Name is Empty! ");
+        }
+
+        if (errorString.length() > 0){
+            return errorString.toString();
+        }else{
+            return null;
+        }
+    }
+
     @CrossOrigin
     @PostMapping(value="updateBooking", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateBooking(@RequestBody IncomingBooking incomingBooking){
         log.info("Update Booking request received");
+
+        String incomingBookingValidationString = validateIncomingBooking(incomingBooking);
+        if(incomingBookingValidationString != null){
+            return ResponseEntity.internalServerError().body("\"status:\": \"failure\", \"reason\": \"" + incomingBookingValidationString + "\"");
+        }
 
         Booking existingBooking = bookingRepository.findBookingByPerson(incomingBooking.getPersonName());
 
