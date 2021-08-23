@@ -63,14 +63,15 @@ Represents a booking, with a reference to the NurseVaccinationTimeslot table whe
  
 
 ## Assumptions
-1. Slots are standardized in 30 mins intervals from 9am - 3pm, and run everyday in this heightened phase
-2. Nurses will be able to sign up for slot & vaccination centre (This potentially can be managed in another system, or manipulated in DB directly)
-3. One person will only be able to attend 1 and only 1 booking only
-4. Update booking functionality will be subject to availability constraints
+1. Slots are standardized in 30 mins intervals from 9am - 3pm, and run everyday(including holidays) in this heightened phase
+2. One person will only be able to make 1 booking only
+3. Update booking functionality will be subject to availability constraints
 
 ## Improvements if given more time
 1. Availability/forecast map to show future projected availability in the next x months
 2. UI can leverage the data from #1 to display a heatmap of sorts to show which days are more available than others
+3. Nurses will be able to sign up for slot & vaccination centre (This potentially can be managed in another system, or manipulated in DB directly)
+
 
 ## Rest Services project setup
 1. Import project as maven project
