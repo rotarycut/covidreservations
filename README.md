@@ -1,9 +1,9 @@
 # Covid Vaccination reservation System 
 
-##Client codebase
+## Client codebase
 https://github.com/rotarycut/covidreservations-client
 
-##Data models
+## Data models
 #### Person
 Represents a person with attributes:
 1. Name (Primary key)
