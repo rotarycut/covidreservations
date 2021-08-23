@@ -192,7 +192,7 @@ public class BookingController {
         if(existingBooking != null){
             return ResponseEntity.ok(existingBooking);
         }else{
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.noContent().build();
         }
     }
 
