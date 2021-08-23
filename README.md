@@ -7,9 +7,9 @@ https://homage-covid-client.herokuapp.com/
 https://github.com/rotarycut/covidreservations-client
 
 ## Stack
-1. Spring boot rest services in Java
-2. React native for rest services client
-3. PostgresDB
+1. Spring boot 2.5 rest services in Java
+2. React native for rest services client on nginx container
+3. PostgresDB for persistent storage
 
 ## Postgres Database login details
 https://github.com/rotarycut/covidreservations/blob/main/src/main/resources/application.properties
@@ -51,11 +51,16 @@ first page if person does not exist in the system.
 
 ## Assumptions
 1. Slots are standardized in 30 mins intervals from 9am - 3pm.
-2. Nurses will be able to sign up for slot & vaccination centre (This can be managed in another system, or manipulated in DB directly)
+2. Nurses will be able to sign up for slot & vaccination centre (This potentially can be managed in another system, or manipulated in DB directly)
 3. One person will only be able to attend 1 and only 1 booking only
-4. 
+4. Update booking functionality will be subject to availability constraints
 
-## Improvements
+## Improvements if given more time
 1. Availability/forecast map to show future projected availability in the next x months
-2. 
+2. UI can leverage the data from #1 to display a heatmap of sorts to show which days are more available than others
+
+## Rest Services project setup
+1. Import project as maven project
+2. mvn clean + mvn install
+3. Run ReservationToolApplication.java to start up web services container
 
