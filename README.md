@@ -1,7 +1,7 @@
 # Covid Vaccination reservation System 
 
 ##Client codebase
-
+https://github.com/rotarycut/covidreservations-client
 
 ##Data models
 #### Person
