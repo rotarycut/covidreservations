@@ -8,7 +8,7 @@ https://github.com/rotarycut/covidreservations-client
 
 ## Stack
 1. Spring boot 2.5 rest services in Java
-2. React native for rest services client on nginx container
+2. ReactJS for rest services client on nginx container
 3. PostgresDB for persistent storage
 
 ## Postgres Database login details
