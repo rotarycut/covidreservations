@@ -2,7 +2,7 @@
 
 ## Application link
 https://homage-covid-client.herokuapp.com/
-
+    
 ## Client codebase
 https://github.com/rotarycut/covidreservations-client
 
@@ -50,7 +50,7 @@ When a booking is made, checks for vaccination centre capacity and timeslots are
 first page if person does not exist in the system.
 
 ## Assumptions
-1. Slots are standardized in 30 mins intervals from 9am - 3pm.
+1. Slots are standardized in 30 mins intervals from 9am - 3pm, and run everyday in this heightened phase
 2. Nurses will be able to sign up for slot & vaccination centre (This potentially can be managed in another system, or manipulated in DB directly)
 3. One person will only be able to attend 1 and only 1 booking only
 4. Update booking functionality will be subject to availability constraints
